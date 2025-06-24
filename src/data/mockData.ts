@@ -140,6 +140,9 @@ export const mockPayments: Payment[] = [
 export const getClientById = (id: string): Client | undefined => 
   mockClients.find(client => client.id === id);
 
+export const getJobById = (id: string): Job | undefined => 
+  mockJobs.find(job => job.id === id);
+
 export const getJobsByClientId = (clientId: string): Job[] =>
   mockJobs.filter(job => job.clientId === clientId);
 
