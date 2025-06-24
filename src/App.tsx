@@ -8,6 +8,8 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import LoginForm from './components/auth/LoginForm';
 import Dashboard from './pages/Dashboard';
+import Clients from './pages/Clients';
+import Jobs from './pages/Jobs';
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
