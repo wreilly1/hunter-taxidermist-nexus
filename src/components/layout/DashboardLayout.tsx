@@ -1,6 +1,7 @@
 
 import React, { ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { User, Calendar, FileText, Users, Settings, LogOut } from 'lucide-react';
 
@@ -11,6 +12,7 @@ interface DashboardLayoutProps {
 
 const DashboardLayout = ({ children, title }: DashboardLayoutProps) => {
   const { user, logout, hasRole } = useAuth();
+  const location = useLocation();
 
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: Calendar, roles: ['hunter', 'taxidermist', 'admin'] },
@@ -23,6 +25,8 @@ const DashboardLayout = ({ children, title }: DashboardLayoutProps) => {
   const visibleNavigation = navigation.filter(item => 
     item.roles.some(role => hasRole(role as any))
   );
+
+  const isActive = (href: string) => location.pathname === href;
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
@@ -43,14 +47,20 @@ const DashboardLayout = ({ children, title }: DashboardLayoutProps) => {
         <nav className="mt-6 px-3">
           <div className="space-y-1">
             {visibleNavigation.map((item) => (
-              <a
+              <Link
                 key={item.name}
-                href={item.href}
-                className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:text-primary hover:bg-primary-50 transition-colors group"
+                to={item.href}
+                className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors group ${
+                  isActive(item.href)
+                    ? 'text-primary bg-primary-50'
+                    : 'text-gray-700 hover:text-primary hover:bg-primary-50'
+                }`}
               >
-                <item.icon className="mr-3 h-5 w-5 text-gray-400 group-hover:text-primary" />
+                <item.icon className={`mr-3 h-5 w-5 ${
+                  isActive(item.href) ? 'text-primary' : 'text-gray-400 group-hover:text-primary'
+                }`} />
                 {item.name}
-              </a>
+              </Link>
             ))}
           </div>
         </nav>

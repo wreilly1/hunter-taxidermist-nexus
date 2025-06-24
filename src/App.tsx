@@ -10,6 +10,8 @@ import LoginForm from './components/auth/LoginForm';
 import Dashboard from './pages/Dashboard';
 import Clients from './pages/Clients';
 import Jobs from './pages/Jobs';
+import Invoices from './pages/Invoices';
+import Settings from './pages/Settings';
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -55,6 +57,26 @@ const AppRoutes = () => {
       <Route path="/dashboard" element={
         <ProtectedRoute>
           <Dashboard />
+        </ProtectedRoute>
+      } />
+      <Route path="/clients" element={
+        <ProtectedRoute>
+          <Clients />
+        </ProtectedRoute>
+      } />
+      <Route path="/jobs" element={
+        <ProtectedRoute>
+          <Jobs />
+        </ProtectedRoute>
+      } />
+      <Route path="/invoices" element={
+        <ProtectedRoute>
+          <Invoices />
+        </ProtectedRoute>
+      } />
+      <Route path="/settings" element={
+        <ProtectedRoute>
+          <Settings />
         </ProtectedRoute>
       } />
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
