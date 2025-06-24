@@ -1,73 +1,174 @@
-# Welcome to your Lovable project
 
-## Project info
+# TaxidermyPro CRM
 
-**URL**: https://lovable.dev/projects/3000efe9-ec31-459f-a729-f6f3790545d0
+A specialized Customer Relationship Management system designed for hunters and taxidermists to manage clients, jobs, invoicing, and documents.
 
-## How can I edit this code?
+## 🎯 Features
 
-There are several ways of editing your application.
+### Multi-Role Authentication
+- **Hunters**: Manage their clients and track submitted trophies
+- **Taxidermists**: Handle workshop operations, job tracking, and billing
+- **Administrators**: Full system oversight and user management
 
-**Use Lovable**
+### Core Functionality
+- **Client Management**: Complete CRUD operations with search capabilities
+- **Job Tracking**: Timeline view with automated status change history
+- **Invoicing System**: Auto-generation, partial payments, taxes, and fees
+- **Document Management**: Drag-and-drop uploads for photos, licenses, receipts
+- **Role-Based Access**: Users only see data relevant to their role
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/3000efe9-ec31-459f-a729-f6f3790545d0) and start prompting.
+## 🚀 Quick Start
 
-Changes made via Lovable will be committed automatically to this repo.
+### Demo Accounts
+The application comes with pre-configured demo accounts:
 
-**Use your preferred IDE**
+- **Hunter**: `hunter@demo.com` / `demo123`
+- **Taxidermist**: `taxidermist@demo.com` / `demo123`  
+- **Admin**: `admin@demo.com` / `demo123`
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Development Setup
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+```bash
+# Install dependencies
+npm install
 
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start development server
 npm run dev
+
+# Build for production
+npm run build
 ```
 
-**Edit a file directly in GitHub**
+## 🏗 Architecture Overview
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Tech Stack Decisions
+- **React 18 + TypeScript**: Type-safe, component-based UI development
+- **Tailwind CSS**: Rapid styling with consistent design system
+- **React Router**: Client-side routing with protected routes
+- **Context API**: Simple state management for authentication
+- **Shadcn/UI**: Pre-built, accessible component library
 
-**Use GitHub Codespaces**
+### Project Structure
+```
+src/
+├── components/          # Reusable UI components
+│   ├── auth/           # Authentication forms
+│   ├── dashboard/      # Dashboard-specific components
+│   ├── layout/         # Layout components
+│   └── ui/             # Base UI components (shadcn)
+├── contexts/           # React contexts for state management
+├── data/              # Mock data and utilities
+├── hooks/             # Custom React hooks
+├── lib/               # Utility functions
+├── pages/             # Route components
+└── types/             # TypeScript type definitions
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Authentication & Authorization
+- **Session Management**: localStorage-based with automatic persistence
+- **Role-Based Access**: Component-level and route-level protection
+- **Route Guards**: Automatic redirection based on authentication status
 
-## What technologies are used for this project?
+## 📊 Data Models
 
-This project is built with:
+### Core Entities
+```typescript
+// User roles and authentication
+type UserRole = 'hunter' | 'taxidermist' | 'admin';
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+// Job workflow status
+type JobStatus = 'RECEIVED' | 'IN_PROGRESS' | 'FINISHED' | 'DELIVERED';
 
-## How can I deploy this project?
+// Business entities
+interface Client {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email?: string;
+  phone: string;
+  address?: string;
+  hunterId?: string;
+  taxidermistId?: string;
+}
 
-Simply open [Lovable](https://lovable.dev/projects/3000efe9-ec31-459f-a729-f6f3790545d0) and click on Share -> Publish.
+interface Job {
+  id: string;
+  clientId: string;
+  type: string;          // "Deer Mount", "Turkey Mount", etc.
+  species: string;
+  status: JobStatus;
+  dropOffDate: Date;
+  dueDate: Date;
+  estimatedPrice: number;
+  specialInstructions?: string;
+}
 
-## Can I connect a custom domain to my Lovable project?
+interface Invoice {
+  id: string;
+  jobId: string;
+  subtotal: number;
+  tax: number;
+  fees: number;
+  discount: number;
+  total: number;
+  balance: number;
+  depositRequired: number;
+  depositPaid: number;
+}
+```
 
-Yes, you can!
+## 🎨 Design System
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+### Color Palette
+- **Primary**: Saddle Brown (#8B4513) - Traditional, earthy
+- **Secondary**: Forest Green (#2D5016) - Natural, outdoorsy
+- **Accent**: Peru (#CD853F) - Warm, welcoming
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+### Typography
+- **Display**: Playfair Display (elegant headings)
+- **Body**: Inter (clean, readable interface text)
+
+### Component Philosophy
+- **Accessibility First**: All components follow WCAG guidelines
+- **Mobile Responsive**: Tailwind's responsive utilities throughout
+- **Consistent Spacing**: 4px base unit system
+- **Hover States**: Subtle animations and feedback
+
+## 🔮 MVP Scope & Future Enhancements
+
+### Current MVP Includes
+- ✅ Multi-role authentication system
+- ✅ Basic client management
+- ✅ Job status tracking
+- ✅ Invoice generation and payment tracking
+- ✅ Role-based navigation and data filtering
+- ✅ Responsive dashboard design
+
+### Planned Enhancements
+- 📋 Advanced job workflow management
+- 📧 Email notifications and reminders
+- 📁 Cloud document storage integration
+- 💳 Payment processor integration (Stripe)
+- 📊 Advanced reporting and analytics
+- 📱 Mobile app companion
+- 🔄 Real-time updates via WebSocket
+- 🗄 Database migration from mock data
+
+## 🤝 Contributing
+
+This is an MVP demonstration. For production use, consider:
+
+1. **Backend Integration**: Replace mock data with real API
+2. **Database Setup**: PostgreSQL with Prisma ORM
+3. **Authentication**: JWT tokens with refresh mechanism  
+4. **File Storage**: AWS S3 or similar cloud storage
+5. **Payment Processing**: Stripe or Square integration
+6. **Email Service**: SendGrid or similar for notifications
+
+## 📄 License
+
+MIT License - feel free to use this as a starting point for your own CRM system.
+
+---
+
+**TaxidermyPro** - Bringing the hunting and taxidermy communities together through better management tools.
